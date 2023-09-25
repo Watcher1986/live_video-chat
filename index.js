@@ -1,5 +1,3 @@
-// import Video from './components/video.js';
-
 const APP_ID = 'aac84fe5dca84378b98dc9fe0f9062c3';
 const token = null;
 const uid = crypto.randomUUID();
@@ -26,20 +24,21 @@ const servers = {
 
 if (!roomId) window.location = 'lobby.html';
 
+const constraints = {
+  video: {
+    width: { min: 640, ideal: 1920, max: 1920 },
+    height: { min: 480, ideal: 1080, max: 1080 },
+  },
+  audio: true,
+};
+
 const init = async () => {
-  localStream = await navigator.mediaDevices.getUserMedia({
-    video: true,
-    audio: true,
-  });
-  // const video = new Video(localStream);
-  // console.log(video);
-  // document.querySelector('.chat-container').appendChild(video.render());
+  localStream = await navigator.mediaDevices.getUserMedia(constraints);
+
   document.getElementById('user-1').srcObject = localStream;
 
   client = await AgoraRTM.createInstance(APP_ID);
   await client.login({ uid, token });
-
-  // index.html?room=234234
 
   channel = client.createChannel(roomId);
   await channel.join();
@@ -67,7 +66,7 @@ async function handleUserJoined(memberId) {
 }
 
 function handleUserLeft(memberId) {
-  console.log(memberId);
+  document.getElementById('user-1').classList.remove('smallFrame');
   document.getElementById('user-2').style.display = 'none';
 }
 
@@ -78,6 +77,8 @@ const createPeerConnection = async (memberId) => {
   userTwoScreen = document.getElementById('user-2');
   userTwoScreen.srcObject = remoteStream;
   userTwoScreen.style.display = 'block';
+
+  document.getElementById('user-1').classList.add('smallFrame');
 
   localStream.getTracks().forEach((track) => {
     peerConnection.addTrack(track, localStream);
