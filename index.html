@@ -2,16 +2,33 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Live Video Chat</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css" type="text/css" media="screen" />
   </head>
   <body>
-    <main>
-      <div class="chat-container">
-        <video src="" id="user-1"></video>
-        <video src="" id="user-2"></video>
+    <div class="chat-container">
+      <video id="user-1" autoplay playsinline></video>
+
+      <video id="user-2" autoplay playsinline></video>
+    </div>
+
+    <div id="controls">
+      <div class="icon camera">
+        <img src="./icons/camera.svg" alt="camera icon" />
       </div>
-    </main>
+      <div class="icon mic">
+        <img src="./icons/mic.svg" alt="microphone icon" />
+      </div>
+      <a href="lobby.html">
+        <div class="icon leave">
+          <img src="./icons/leave_chat.svg" alt="leave_chat icon" />
+        </div>
+      </a>
+    </div>
   </body>
+  <script src="index.js" type="module" defer></script>
+
+  <script src="signaling-api.js"></script>
 </html>
